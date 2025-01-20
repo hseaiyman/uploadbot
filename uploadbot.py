@@ -4,7 +4,6 @@ import aiohttp
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 
-# Add these lines at the beginning of your script
 import nest_asyncio
 nest_asyncio.apply()
 
@@ -64,8 +63,11 @@ async def main():
     await application.initialize()
     await application.start()
     await application.updater.start_polling()
+    
     print("Bot is running...")
-    await application.idle()
+    
+    while True:
+        await asyncio.sleep(1)
 
 if __name__ == '__main__':
     asyncio.run(main())
