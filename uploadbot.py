@@ -1,9 +1,12 @@
 import os
-from telegram import Update
-from telegram.ext import Application, CommandHandler, MessageHandler, filters
-import requests
 import asyncio
 import aiohttp
+from telegram import Update
+from telegram.ext import Application, CommandHandler, MessageHandler, filters
+
+# Add these lines at the beginning of your script
+import nest_asyncio
+nest_asyncio.apply()
 
 TOKEN = '7743531642:AAHvLUDpx1stBvEmqH6sOLXTzZBIb9ztR8w'
 MAX_FILE_SIZE = 2000 * 1024 * 1024  # 2000 MB (2 GB)
@@ -58,7 +61,11 @@ async def main():
     application.add_handler(CommandHandler("start", start))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_link))
 
-    await application.run_polling()
+    await application.initialize()
+    await application.start()
+    await application.updater.start_polling()
+    print("Bot is running...")
+    await application.idle()
 
 if __name__ == '__main__':
     asyncio.run(main())
